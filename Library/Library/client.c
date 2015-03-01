@@ -73,7 +73,7 @@ int isMallocError(ClientNode *cNode)
 
 // 학번 중복 검사 함수
 // 학번이 중복이면 1, 중복 아니면 0 을 리턴
-int clientList_isUnique(ClientList * list, int client_id)
+int clientList_isUnique(ClientList * list, char* client_id)
 {
 	ClientNode *curNode = list->head->next;
 
@@ -85,9 +85,7 @@ int clientList_isUnique(ClientList * list, int client_id)
 			return 1;
 		}
 		
-
 		curNode = curNode->next;
-		puts("DEBUG");
 	}
 	
 	return 0;
@@ -119,17 +117,18 @@ int client_register(ClientList *list)
 
 	ClientNode newNode = {0,};
 	char buffer[128] = {0,};
-	int client_id = 0;
+	char *client_id = NULL;
 	int len = 0; // 버퍼의 마지막에 '\0'을 넣기 위해
 	printf("학번을 입력하세요 : ");
-	scanf("%d", &client_id);
-	getchar(); // 입력버퍼에 개행문자 지우기
+	fgets(buffer, 128, stdin);
+	len = strlen(buffer);
+	buffer[len - 1] = '\0';
 
-	if (!clientList_isUnique(list, client_id))
+	newNode.client_id = (char*)malloc(len);
+	strcpy(newNode.client_id, buffer);
+
+	if (!clientList_isUnique(list, newNode.client_id))
 	{
-		//newNode.client_id = client_id;
-		_itoa(client_id, newNode.client_id, 10);
-
 		printf("비밀번호를 입력하세요 : ");
 		fgets(buffer, 128, stdin);
 		// 비밀번호를 1111 입력했으면 length 는 5.

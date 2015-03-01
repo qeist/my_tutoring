@@ -34,7 +34,7 @@ typedef struct _clientList
 int clientList_create(ClientList *list);
 ClientNode* clientList_append(ClientList *list, ClientNode *newClientNode);
 int clientList_displayAll(ClientList *list);
-int clientList_isUnique(ClientList * list, int client_id);
+int clientList_isUnique(ClientList * list, char* client_id);
 
 int client_register(ClientList *list);
 
